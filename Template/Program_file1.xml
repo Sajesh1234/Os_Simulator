@@ -1,4 +1,4 @@
-<template>
+<Template>
 	<operation>CALCULATE
 		<critical> 1 </critical>
 		<min> 5 </min>
