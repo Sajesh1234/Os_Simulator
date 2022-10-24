@@ -6,6 +6,10 @@ class Process(object):
   def __init__(self, pid, file_name):
           process_state = "NEW"
           self.pcb = pcb.ProcessControlBlock(process_state, pid)
+          self.operations = []
+  
+  def add_operation(self, operation):
+          self.operations.append(operation)
 
   def set_ready(self):
           self.pcb.state = "READY"

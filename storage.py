@@ -24,6 +24,7 @@ class Storage:
             min_time = int(o.find('min').text)
             max_time = int(o.find('max').text)
             new_operation = Operation(name, min_time, max_time, critical)
+            new_process.add_operation(new_operation)
           self.processes.append(new_process)
           self.pid_counter += 1
           return new_process.get_pid()
