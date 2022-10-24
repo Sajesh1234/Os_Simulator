@@ -1,14 +1,28 @@
-from Storage import Storage
-def __init__(self):
+from storage import Storage
+
+class Test:
+    def __init__(self):
+        self.Storage = Storage()
+    def printeverything1(self):
+        print (self.Storage.generate('Template/Program_files1.xml'))
+        
+    def printeverything2(self):
+        print (self.Storage.generate('Template/Program_files2.xml'))
+        
+y = int(input("enter a number between 1 or 2"))
+
+if y == 1:
+    x = Test()
+    x.printeverything1()
+if y == 2:
+    x = Test()
+    x.printeverything2()
+
+
+ 
+    
+
 
         
-        self.Storage = Storage(self)
-        file = int(input("enter 1 or 2"))
-                
-        if file == 1:
-                print(self.Storage.generate_from_file('Template/program_file1.xml'))
-                
-        if file == 2: 
-                  print(self.Storage.generate_from_file('Template/program_file1.xml'))
                   
         
