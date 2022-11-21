@@ -8,10 +8,10 @@ class Operation:
         self.critical = critical
         self.cycle_length = random.randrange(min, max, 1)
 
-    def get_cycle_length (self):
+    def get_cycle_length(self):
         return self.cycle_length
 
-    def decrement_cycle_length(self):
+    def decrement_cycle_length(self, decrement):
         self.cycle_length -= decrement
 
     def get_name(self):

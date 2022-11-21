@@ -1,12 +1,12 @@
 import random
 from Memory import *
+from op import Operation
 
 class CpuSchedule:
     quantum = 20
     def __init__(self, gen):
         self.gen = gen
         self.ready_queue = []
-        self.new_queue = []
         self.wait_queue = []
         self.lock_critical = Lock()
         self.semaphore = Semaphore(4)

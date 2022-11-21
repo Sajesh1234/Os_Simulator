@@ -7,25 +7,26 @@ class Memory:
         self.mem_lock = Lock()
         self.mem_condition = Condition(self.mem_lock)
         self.frames = []
-        self.available_frames = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        self.available_frames = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         self.p_number = 0
-        for frame in range(12):
+        for frame in range(16):
             self.frames.append(None)
         self.ready_queue = []
         self.cpu = cpu
+        self.page_entries = []
 
     def load_mem(self):
         while True:
-            if len(self.cpu.new_queue) > 0:
-                process = self.cpu.new_queue.pop(0)
+            if len(self.gen.new_queue) > 0:
+                process = self.gen.new_queue.pop(0)
                 with self.mem_condition:
                     while not self.loaded_mem(process.get_pid()):
                         self.mem_condition.wait()
 
 
     def loaded_mem(self, pid):
-        if self.cpu.processes[pid].get_memory() < self.get_mem_available():
-            for page in range(self.gen.processes[pid].pages_needed):
+        if self.gen.processes[pid].get_memory() < self.get_mem_available():
+            for page in range(self.gen.processes[pid].pages_need):
                 page_num = self.p_number
                 self.gen.processes[pid].page_table.append((page_num, self.assign_frame(page_num)))
                 self.p_number = (self.p_number + 1) % 12
@@ -47,17 +48,18 @@ class Memory:
         self.mem_available += self.gen.processes[pid].get_memory()
         for entry_list in self.gen.processes[pid].page_table:
             frame_index = entry_list[1]
-            self.frames[frame_index] = None
+            #self.frames[frame_index] = (None)
             self.available_frames.append(frame_index)
-            print("frame % is free" % frame_index)
+            self.update_page_table(frame_index, "FREE")
+            
     def assign_frame(self, p_number):
         if len(self.available_frames) > 0:
             frame = self.available_frames.pop(0)
-            self.frames[frame] = p_number
+            #self.frames[frame] = p_number
             return frame
         else:
-            print("no")
-            return None
+            print("Empty \n")
+            #return None
 
     def remove_page(self, p_number):
         frame_index = self.get_frame(p_number)
@@ -76,4 +78,8 @@ class Memory:
             if self.frames[frame_index] == p_number:
                 return frame_index
         return 0
+    def update_page_table(self, frame, page):
+        for o in self.page_entries:
+            self.page_entries[frame] = page
+
     

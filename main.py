@@ -35,7 +35,6 @@ class main:
         cpu_thread = Thread(target=self.cpu.rr)
         memory_thread.start()
         cpu_thread.start()
-    def add_process(self, pid):
-        self.processes.append(pid)
+        
 t = main()
 print(t.run())
