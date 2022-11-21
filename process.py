@@ -1,6 +1,8 @@
 import ProcessControlBlock as pcb
 
 class Process:
+
+
     def __init__(self, pid, memory, pointer, fn):
         time_passed = 0
         program_c=0
@@ -17,19 +19,8 @@ class Process:
     def add_operation(self, operation):
         self.operations.append(operation)
 
-    def is_new(self):
-        if self.pcb.state == "NEW":
-            return True
-        else:
-            return False
     def set_ready(self):
         self.pcb.state = "READY"
-
-    def is_ready(self):
-        if self.pcb.state == "READY":
-            return True
-        else:
-            return False
 
     def set_run(self):
         self.pcb.state = "RUN"

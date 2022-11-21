@@ -21,7 +21,7 @@ class Memory:
                 with self.mem_condition:
                     while not self.loaded_mem(process.get_pid()):
                         self.mem_condition.wait()
-            
+
 
     def loaded_mem(self, pid):
         if self.cpu.processes[pid].get_memory() < self.get_mem_available():
@@ -31,6 +31,7 @@ class Memory:
                 self.p_number = (self.p_number + 1) % 12
 
             self.gen.processes[pid].set_ready()
+            self.gen.processes[pid].print()
             self.cpu.ready_queue.append(self.gen.processes[pid])
             self.mem_available -= self.gen.processes[pid].get_memory()
             print("Process %d is in memory"% pid)
@@ -58,6 +59,11 @@ class Memory:
             print("no")
             return None
 
+    def remove_page(self, p_number):
+        frame_index = self.get_frame(p_number)
+        self.frames[frame_index] = 0
+        self.available_frames.append(frame_index)
+
     def h_page(self, p_number):
         for frame in self.frames:
             if frame == p_number:
@@ -70,3 +76,4 @@ class Memory:
             if self.frames[frame_index] == p_number:
                 return frame_index
         return 0
+    

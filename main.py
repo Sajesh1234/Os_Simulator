@@ -4,17 +4,17 @@ from Gen import *
 from threading import *
 from process import *
 
-
 class main:
     def __init__(self):
-        
+
         self.gen = gen()
         self.cpu = CpuSchedule(self.gen)
         self.memory = Memory(self.gen, self.cpu)
         self.cpu.mem_con(self.memory)
+        self.processes = []
 
         n = int(input('Enter the No. of Processes: '))
-        
+
         while n > 0:
             file_use = int(input('Select from templates 1 or 2 '))
             if file_use == 1 or file_use == 2:
@@ -25,16 +25,17 @@ class main:
                 self.gen.from_files(fn)
                 n -= 1
             else:
-                print("invalid template selection")
-                
+                print("invalid template")
+
         self.cpu.print()
         print("\nBeginning schedule processes\n")
-    
-    def run(self):
-        
-        cpu_thread = Thread(target=self.cpu.rr)
-        cpu_thread.start()
 
+    def run(self):
+        memory_thread = Thread(target=self.memory.load_mem)
+        cpu_thread = Thread(target=self.cpu.rr)
+        memory_thread.start()
+        cpu_thread.start()
+    def add_process(self, pid):
+        self.processes.append(pid)
 t = main()
 print(t.run())
-
