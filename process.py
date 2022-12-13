@@ -9,8 +9,8 @@ class Process:
         registers = []
         process_state = "NEW"
         memory_required = memory
-        page_size = 32
-        self.pages_need = page_size
+        page_size = 64
+        self.pages_need = memory_required // page_size
         self.page_table = []
         self.pcb = pcb.ProcessControlBlock(pointer, process_state, pid, program_c, registers, memory_required, time_passed)
         self.operations = []

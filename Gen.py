@@ -4,14 +4,15 @@ from process import Process
 
 
 class gen:
-    def __init__ (self):
-        self.new_queue = []
-        self.ready_queue = []
-        self.wait_queue = []
+    def __init__ (self, gui):
+        self.gui = gui
         self.pid_counter = 0
-        self.exit_queue = []
         self.processes = []
-        self.address = 3000
+        self.new_queue = []
+        #self.ready_queue = []
+        #self.wait_queue = []
+        #self.exit_queue = []
+        self.address = 4096
 
     def from_files(self, file_name):
         tree = ElementTree.parse(file_name)
@@ -30,9 +31,10 @@ class gen:
                 critical = True
             min = int(o.find('min').text)
             max = int(o.find('max').text)
-            new_operation = Operation(name, min, max, critical)
-            new_process.add_operation(new_operation)
+            new_op = Operation(name, min, max, critical)
+            new_process.add_operation(new_op)
         self.processes.append(new_process)
         self.new_queue.append(new_process)
+        self.gui.add_process(self.pid_counter)
         self.pid_counter += 1
         return new_process.get_pid()
